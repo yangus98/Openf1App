@@ -1,0 +1,74 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="tabs/tab2"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Session Details</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-segment [(ngModel)]="segmentValue" (ionChange)="onSegmentChange($event)">
+    <ion-segment-button value="drivers">
+      <ion-label>Drivers</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="weather">
+      <ion-label>Weather</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="positions">
+      <ion-label>Positions</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="charts">
+      <ion-label>Position Chart</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <ion-list *ngIf="segmentValue === 'drivers'">
+    <ion-item *ngFor="let driver of drivers">
+      <ion-label>
+        <h2>{{ driver.full_name }}</h2>
+        <p>{{ driver.team_name }}</p>
+      </ion-label>
+      <ion-img [src]="driver.headshot_url"></ion-img>
+    </ion-item>
+  </ion-list>
+
+  <ion-list *ngIf="segmentValue === 'weather'">
+    <ion-item>
+      <ion-label>Air Temperature: {{ weather?.air_temperature }} °C</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>Track Temperature: {{ weather?.track_temperature }} °C</ion-label></ion-item>
+    <ion-item>
+      <ion-label>Humidity: {{ weather?.humidity }} %</ion-label></ion-item>
+    <ion-item>
+      <ion-label>Pressure: {{ weather?.pressure }} mbar</ion-label></ion-item>
+    <ion-item>
+      <ion-label>Wind Speed: {{ weather?.wind_speed }} m/s</ion-label></ion-item>
+    <ion-item>
+      <ion-label>Wind Direction: {{ weather?.wind_direction }} °</ion-label></ion-item>
+    <ion-item>
+      <ion-label>Rainfall: {{ weather?.rainfall }} mm</ion-label></ion-item>
+  </ion-list>
+
+  <ion-list *ngIf="segmentValue === 'positions'">
+    <ion-item *ngFor="let position of uniquePositions">
+      <ion-label>
+        <h2>Driver: {{ getDriverFullName(position.driver_number) }}</h2>
+        <p>Position: {{ position.position }}</p>
+        <p>Date: {{ position.date | date: 'dd/MM/yyyy HH:mm' }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <div *ngIf="segmentValue === 'charts'">
+    <ion-item>
+      <ion-label>Select the drivers:</ion-label>
+      <ion-select multiple (ionChange)="onDriverSelectionChange($event.detail.value)">
+        <ion-select-option *ngFor="let driver of drivers" [value]="driver.driver_number">{{ driver.full_name }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <p-chart type="line" [data]="data" [options]="options" style="width: 100%; height: 400px;"></p-chart>
+  </div>
+</ion-content>

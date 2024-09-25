@@ -1,0 +1,24 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="tabs/tab2"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Select the session</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="segmentValue === 'sessions'">
+    <ion-item *ngFor="let session of sessions; let i = index" [button]="true" [routerLink]="['/tabs/tab2/sessions', session.session_key, this.meetingKey]">
+      <ion-label>Start: {{ session.date_start | date: 'dd/MM/yyyy HH:mm' }}</ion-label>
+      <ion-label>End: {{ session.date_end | date: 'dd/MM/yyyy HH:mm' }}</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+
+
+
+
+
+

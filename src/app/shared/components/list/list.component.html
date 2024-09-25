@@ -1,0 +1,11 @@
+<ion-list >
+@for(driver of driversInput; track $index){
+    <ion-item>
+      <ion-img [src]="driver.headshot_url" style="width: 80px; height: 80px;"></ion-img>
+      <div style="text-align: center;">
+        <ion-label>{{driver.full_name}}</ion-label>
+      <ion-label style="font-size: 14px;">{{driver.team_name}}</ion-label>
+      </div>
+     </ion-item>
+ }
+</ion-list>
